@@ -11,18 +11,34 @@ function Protected({ children }) {
   return children;
 }
 
+function TopNav() {
+  const { pathname } = useLocation();
+  const showAdminNav = pathname === '/login' || pathname === '/admin';
+
+  return (
+    <nav className="topnav">
+      <Link to="/" className="brand">
+        <span className="brand-dot" />
+        Feedback
+      </Link>
+      {showAdminNav && (
+        <div className="nav-links">
+          {isAuthed() ? <Link to="/admin">Dashboard</Link> : <Link to="/login">Sign in</Link>}
+        </div>
+      )}
+    </nav>
+  );
+}
+
 export default function App() {
   return (
     <>
-      <nav className="topnav">
-        <Link to="/" className="brand">QR Feedback</Link>
-        <div className="nav-links">
-          {isAuthed()
-            ? <Link to="/admin">Admin</Link>
-            : <Link to="/login">Admin Login</Link>}
-        </div>
-      </nav>
-
+      <div className="bg-orbs">
+        <span className="orb orb-a" />
+        <span className="orb orb-b" />
+        <span className="orb orb-c" />
+      </div>
+      <TopNav />
       <Routes>
         <Route path="/" element={<FeedbackForm />} />
         <Route path="/thanks" element={<Thanks />} />

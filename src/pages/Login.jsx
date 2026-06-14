@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { setToken } from '../auth.js';
+import { setToken, apiUrl } from '../auth.js';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export default function Login() {
     setError('');
     setSubmitting(true);
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch(apiUrl('/api/auth/login'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })

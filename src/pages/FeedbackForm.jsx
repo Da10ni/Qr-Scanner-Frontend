@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiUrl } from '../auth.js';
 
 const CATEGORIES = ['Service', 'Product', 'Staff', 'Cleanliness', 'Other'];
 
@@ -21,7 +22,7 @@ export default function FeedbackForm() {
     }
     setSubmitting(true);
     try {
-      const res = await fetch('/api/feedback', {
+      const res = await fetch(apiUrl('/api/feedback'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, rating })

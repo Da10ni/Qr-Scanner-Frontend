@@ -1,5 +1,8 @@
 const KEY = 'qrscan_token';
 
+export const API_URL = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+export const apiUrl = (path) => `${API_URL}${path.startsWith('/') ? path : '/' + path}`;
+
 export const getToken = () => localStorage.getItem(KEY);
 export const setToken = (t) => localStorage.setItem(KEY, t);
 export const clearToken = () => localStorage.removeItem(KEY);
@@ -10,7 +13,7 @@ export async function apiFetch(path, options = {}) {
   const token = getToken();
   if (token) headers.Authorization = `Bearer ${token}`;
 
-  const res = await fetch(path, { ...options, headers });
+  const res = await fetch(apiUrl(path), { ...options, headers });
   if (res.status === 401) {
     clearToken();
     throw new Error('Unauthorized');
